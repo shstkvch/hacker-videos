@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 use App\Jobs\FetchItem;
 
+use App\Item;
+
 class EnqueueItems extends Command
 {
     /**
@@ -43,7 +45,8 @@ class EnqueueItems extends Command
 
         $max = $max->body();
 
-        $i = 0;
+        $i = Item::count();
+        
         while( $i < $max ) {
             dispatch( new FetchItem( $i ) );
 
