@@ -1,0 +1,7 @@
+name: hacker-videos
+recipe: laravel
+config:
+  webroot: public
+services:
+  database:
+    portforward: 3311
