@@ -43,11 +43,15 @@ class EnqueueItems extends Command
 
         $max = $max->body();
 
-        $items = range( 0, $max );
+        $i = 0;
+        while( $i < $max ) {
+            dispatch( new FetchItem( $i ) );
 
-        foreach ( $items as $item ) {
-            dispatch( new FetchItem( $item ) );
-            $this->info( 'Enqueued ' . $item . ' of ' . $max . ' items' );
+            if ( $i % 1000 == 0 ) {
+                $this->info( 'Enqueued ' . $i . ' of ' . $max . ' items' );
+            }
+
+            $i++;
         }
     }
 }
