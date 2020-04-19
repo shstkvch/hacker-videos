@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 
 use App\Item;
+use App\Video;
 use App\Jobs\CheckItemForVideo;
 
 class EnqueueVideos extends Command
@@ -62,8 +63,18 @@ class EnqueueVideos extends Command
             preg_match_all( $preg_pattern, $subject, $m);
 
             if ( isset( $m[1] ) ) {
+                $video_id = current( $m[1] );
 
+                $new_video = new Video();
+                $new_video->youtube_guid = current( $m[1] );
+                $new_video->item_id = $potential_video->id;
+                $new_video->votes = $potential_video->score;
+
+                $new_video->save();
             }
+
+            $potential_video->imported = true;
+            $potential_video->save();
         } );
     }
 }
