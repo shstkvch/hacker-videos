@@ -66,13 +66,16 @@ class EnqueueVideos extends Command
                 $new_video = new Video();
 
                 $parsed = parse_url( current( $m[0] ) );
-                parse_str( $parsed['query'], $query );
 
-                $new_video->youtube_guid = $query['v'];
-                $new_video->item_id = $potential_video->id;
-                $new_video->votes = $potential_video->score;
+                if ( isset( $parsed['query'] ) ) {
+                    parse_str( $parsed['query'], $query );
 
-                $new_video->save();
+                    $new_video->youtube_guid = $query['v'];
+                    $new_video->item_id = $potential_video->id;
+                    $new_video->votes = $potential_video->score;
+
+                    $new_video->save();    
+                }
             }
 
             $potential_video->imported = true;
