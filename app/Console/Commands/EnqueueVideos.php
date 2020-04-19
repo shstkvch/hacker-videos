@@ -63,12 +63,21 @@ class EnqueueVideos extends Command
             preg_match_all( $preg_pattern, $subject, $m);
 
             if ( isset( $m[1] ) ) {
-                $video_id = current( $m[1] );
-
                 $new_video = new Video();
                 $guid = current( $m[1] );
 
+                // limit to 32 chars(!)
                 $guid = substr( $guid, 32 );
+
+                // if we have an ampersand, ignore it and everything after
+                if ( $amppos = strpos( $guid, '&' ) ) {
+                    $guid = substr( $guid, 0, $amppos );
+                }
+
+                // if we have a hash, ignore it and everything after
+                if ( $hashpos = strpos( $guid, '#' ) ) {
+                    $guid = substr( $guid, 0, $hashpos );
+                }
 
                 $new_video->youtube_guid = $guid;
                 $new_video->item_id = $potential_video->id;
