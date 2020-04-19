@@ -66,7 +66,11 @@ class EnqueueVideos extends Command
                 $video_id = current( $m[1] );
 
                 $new_video = new Video();
-                $new_video->youtube_guid = current( $m[1] );
+                $guid = current( $m[1] );
+
+                $guid = substr( $guid, 32 );
+
+                $new_video->youtube_guid = $guid;
                 $new_video->item_id = $potential_video->id;
                 $new_video->votes = $potential_video->score;
 
