@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->command('items:enqueue_videos')->hourly();
+        $schedule->command('videos:enqueue')->hourly();
     }
 
     /**
